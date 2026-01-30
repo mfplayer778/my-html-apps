@@ -4,10 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>成功率算出君</title>
-
 <style>
 body{
-  font-family:system-ui,-apple-system;
+  font-family: system-ui, -apple-system;
   background:#1e1e2f;
   color:#fff;
   margin:0;
@@ -17,7 +16,16 @@ body{
 h1{
   text-align:center;
   font-size:18px;
-  margin-bottom:6px;
+  margin-bottom:4px;
+}
+
+/* 説明文 */
+.description{
+  text-align:center;
+  font-size:13px;
+  margin-bottom:8px;
+  line-height:1.4;
+  white-space:pre-line;
 }
 
 /* ===== メインボタン ===== */
@@ -44,9 +52,25 @@ button{
 
 .reset{background:#ff6666;height:48px;flex:1;}
 .soundToggle{background:#66dd88;height:48px;width:90px;font-size:14px;}
-.csv{background:#b399ff;height:46px;width:100%;margin-top:6px;}
 
-button:active{opacity:0.7}
+/* ===== CSV & データ提供 ===== */
+.csvSection{
+  display:flex;
+  align-items:center;
+  gap:6px;
+  margin-top:6px;
+}
+
+.csvBtn{
+  height:46px;
+  font-size:14px;
+  border-radius:10px;
+  border:none;
+  background:#b399ff;
+  color:#000;
+  padding:0 8px;
+  cursor:pointer;
+}
 
 /* ===== 入力欄 ===== */
 .inputSection{
@@ -66,7 +90,7 @@ button:active{opacity:0.7}
   background:#1e1e2f;
   color:#fff;
   margin-bottom:6px;
-  box-sizing:border-box; /* ★ズレ防止 */
+  box-sizing:border-box;
 }
 
 /* ===== テンキー ===== */
@@ -102,11 +126,29 @@ button:active{opacity:0.7}
   margin:6px 0;
 }
 
-/* ===== メモ ===== */
-.memoSection{
-  border:2px solid #fff;
+/* ===== 任意入力 ===== */
+.optionalSection{
+  background:#264653;
   border-radius:10px;
-  padding:6px;
+  padding:8px;
+  margin-top:6px;
+}
+
+.formSection{margin:0;padding:6px;}
+.formSection input{
+  width:100%;
+  height:38px;
+  font-size:16px;
+  margin-bottom:6px;
+  border-radius:6px;
+  border:2px solid #fff;
+  background:#1e1e2f;
+  color:#fff;
+  padding:4px;
+  box-sizing:border-box;
+}
+
+.memoSection{
   margin-top:6px;
 }
 
@@ -122,9 +164,12 @@ button:active{opacity:0.7}
 }
 </style>
 </head>
-
 <body>
 <h1>成功率算出君</h1>
+<div class="description">
+成功/ミスをクリックすると成功率を自動計算します。
+また、テンキー入力後に成功/ミスをクリックすると任意回数の計算も可能です。
+</div>
 
 <div class="mainButtons">
   <button class="success" onclick="addSuccess()">成功</button>
@@ -161,33 +206,49 @@ button:active{opacity:0.7}
   <button class="soundToggle" onclick="toggleSound()">🔊 音ON</button>
 </div>
 
-<button class="csv" onclick="exportCSV()">CSV出力</button>
+<!-- 任意入力 -->
+<div class="optionalSection">
+  <p style="font-size:13px;">データ提供にご協力いただける場合は、以下を入力し、①csvファイルをダウンロード→②データ提供先のGoogleドライブへアップロードをお願いします。</p>
+  <div class="formSection">
+    <input id="playerName" placeholder="プレイヤー名 (任意)">
+    <input id="userLevel" placeholder="術者レベル">
+    <input id="targetLevel" placeholder="対象レベル">
+    <input id="skillName" placeholder="技名(正式名称)">
+  </div>
 
-<div class="memoSection">
-  <textarea id="memo" placeholder="メモ欄"></textarea>
+  <!-- CSV & データ提供ボタン -->
+  <div class="csvSection">
+    <button class="csvBtn" onclick="downloadCSV()">① CSVダウンロード</button>
+    <span style="align-self:center;font-size:16px;">→</span>
+    <button class="csvBtn" style="background:#aa88ff;"
+            onclick="window.open('https://drive.google.com/drive/folders/1tYpywXZoB33LoSDLk98yfL351-uwfmdf','_blank')">
+      ② データ提供はコチラ（Googleドライブ）
+    </button>
+  </div>
+
+  <div class="memoSection">
+    <textarea id="memo" placeholder="メモ欄"></textarea>
+  </div>
 </div>
 
 <script>
 /* ===== 音 ===== */
 const audioCtx=new (window.AudioContext||window.webkitAudioContext)();
 let soundOn=true;
-function playTone(f,d=0.1,v=0.25){
-  if(!soundOn)return;
-  const o=audioCtx.createOscillator();
-  const g=audioCtx.createGain();
-  o.frequency.value=f; g.gain.value=v;
-  o.connect(g); g.connect(audioCtx.destination);
-  o.start(); o.stop(audioCtx.currentTime+d);
-}
+function playTone(f,d=0.1,v=0.25){if(!soundOn)return; const o=audioCtx.createOscillator(); const g=audioCtx.createGain(); o.frequency.value=f; g.gain.value=v; o.connect(g); g.connect(audioCtx.destination); o.start(); o.stop(audioCtx.currentTime+d);}
 function ok(){playTone(880,0.12,0.3);}
 function ng(){playTone(440,0.12,0.25);}
-function toggleSound(){
-  soundOn=!soundOn;
-  document.querySelector(".soundToggle").textContent=soundOn?"🔊 音ON":"🔇 音OFF";
-}
+function toggleSound(){soundOn=!soundOn; document.querySelector(".soundToggle").textContent=soundOn?"🔊 音ON":"🔇 音OFF";}
 
-/* ===== ロジック ===== */
-let success=0,miss=0;
+/* ===== カウンター ===== */
+let success=0, miss=0;
+const inputValue=document.getElementById("inputValue");
+const successEl=document.getElementById("success");
+const missEl=document.getElementById("miss");
+const rate=document.getElementById("rate");
+const ci=document.getElementById("ci");
+const memo=document.getElementById("memo");
+
 function getVal(){return Number(inputValue.value)||1;}
 
 function update(){
@@ -195,40 +256,53 @@ function update(){
   rate.textContent=t?(success/t*100).toFixed(1):"0.0";
   if(!t){ci.textContent="0.0 - 0.0";return;}
   const p=success/t,se=Math.sqrt(p*(1-p)/t);
-  ci.textContent=
-    `${Math.max(0,(p-1.96*se)*100).toFixed(1)} - ${Math.min(100,(p+1.96*se)*100).toFixed(1)}`;
+  ci.textContent=`${Math.max(0,(p-1.96*se)*100).toFixed(1)} - ${Math.min(100,(p+1.96*se)*100).toFixed(1)}`;
 }
 
-function addSuccess(){ok();success+=getVal();successEl.textContent=success;update();clearNum();}
-function addMiss(){ng();miss+=getVal();missEl.textContent=miss;update();clearNum();}
-function resetAll(){ng();success=miss=0;successEl.textContent=0;missEl.textContent=0;update();clearNum();memo.value="";}
+function addSuccess(){ok(); success+=getVal(); successEl.textContent=success; update(); clearNum();}
+function addMiss(){ng(); miss+=getVal(); missEl.textContent=miss; update(); clearNum();}
+function resetAll(){
+  ng();
+  success=miss=0;
+  successEl.textContent=0;
+  missEl.textContent=0;
+  update();
+  clearNum();
+  memo.value="";
+  document.getElementById("playerName").value="";
+  document.getElementById("userLevel").value="";
+  document.getElementById("targetLevel").value="";
+  document.getElementById("skillName").value="";
+}
 
+/* ===== テンキー ===== */
 function addNum(n){inputValue.value+=n;}
 function clearNum(){inputValue.value="";}
 function backspace(){inputValue.value=inputValue.value.slice(0,-1);}
 
-/* ===== CSV ===== */
-function exportCSV(){
-  const t=success+miss;
-  const r=t?(success/t*100).toFixed(1):"0.0";
-  let csv="成功,ミス,成功率(%)\n";
-  csv+=`${success},${miss},${r}\n\n`;
-  csv+=`メモ,"${memo.value.replace(/"/g,'""')}"\n`;
-  csv+=`出力日時,${new Date().toLocaleString()}\n`;
-  const blob=new Blob([csv],{type:"text/csv"});
+/* ===== CSVダウンロード ===== */
+function downloadCSV(){
+  const playerName=document.getElementById("playerName").value;
+  const userLevel=parseInt(document.getElementById("userLevel").value)||0;
+  const targetLevel=parseInt(document.getElementById("targetLevel").value)||0;
+  const skillName=document.getElementById("skillName").value;
+  const levelDiff=userLevel-targetLevel;
+  const total=success+miss;
+  const successRate=total>0?((success/total*100).toFixed(2))+"%":"0%";
+  const now=new Date().toLocaleString();
+
+  const csvData=[
+    ["プレイヤー名","術者レベル","対象レベル","レベル差","成功","ミス","成功率","技名(正式名称)","メモ","出力日時"],
+    [playerName,userLevel,targetLevel,levelDiff,success,miss,successRate,skillName,memo.value,now]
+  ];
+
+  const csvContent=csvData.map(e=>e.join(",")).join("\n");
+  const blob=new Blob([csvContent],{type:"text/csv"});
   const a=document.createElement("a");
   a.href=URL.createObjectURL(blob);
   a.download="成功率算出結果.csv";
   a.click();
 }
-
-/* short refs */
-const inputValue=document.getElementById("inputValue");
-const successEl=document.getElementById("success");
-const missEl=document.getElementById("miss");
-const rate=document.getElementById("rate");
-const ci=document.getElementById("ci");
-const memo=document.getElementById("memo");
 </script>
 </body>
 </html>
