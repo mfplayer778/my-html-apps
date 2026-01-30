@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>成功率算出君</title>
+<title>成功率算出君 + CSV出力</title>
 
 <style>
 body {
@@ -24,7 +24,7 @@ h1 {
 .mainButtons {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   margin-bottom: 6px;
 }
 
@@ -35,10 +35,11 @@ button {
   color: #000;
 }
 
-.success { background: #ff9933; height: 50px; font-size:16px; width:100%; }
-.miss { background: #66ccff; height: 50px; font-size:16px; width:100%; }
-.reset { background: #ff6666; height: 50px; font-size:16px; flex-grow:1; }
-.soundToggle { background: #66dd88; height: 50px; font-size:14px; width:90px; }
+.success { background: #ff9933; height: 55px; font-size:17px; width:100%; }
+.miss { background: #66ccff; height: 55px; font-size:17px; width:100%; }
+.reset { background: #ff6666; height: 55px; font-size:16px; flex-grow:1; }
+.soundToggle { background: #66dd88; height: 55px; font-size:16px; width:90px; }
+.csv { background: #cdaeff; height: 50px; font-size:16px; width:100%; margin-top:6px; border-radius:10px; }
 
 button:active { opacity:0.7; }
 
@@ -60,8 +61,8 @@ button:active { opacity:0.7; }
 
 .inputBox {
   width: 100%;
-  height: 34px;
-  font-size: 16px;
+  height: 38px;
+  font-size: 17px;
   text-align: right;
   border-radius: 6px;
   border:1px solid #fff;
@@ -78,24 +79,46 @@ button:active { opacity:0.7; }
 }
 
 .keypad button {
-  height: 36px;
-  font-size: 16px;
+  height: 40px;
+  font-size: 17px;
   background: #bbbbbb;
   border-radius: 6px;
 }
+
+/* ===== リセット+音 ===== */
+.resetSoundWrapper {
+  display:flex;
+  gap:6px;
+  margin-top:6px;
+  flex-wrap: nowrap; 
+  align-items:center;
+}
+
+/* ===== フッター（成功率結果） ===== */
+.footer {
+  background: #2b2b44;
+  padding: 12px;
+  border-radius: 8px;
+  margin-top:6px;
+  text-align: center;
+}
+
+.value { font-size:18px; margin:4px 0; }
+.rate { font-size:30px; font-weight:bold; margin-top:5px; }
+.ci { font-size:15px; margin-top:4px; color:#ffeeaa; }
 
 /* ===== メモ欄 ===== */
 .memoSection {
   border: 2px solid #fff;
   border-radius: 10px;
   padding: 6px;
-  margin-bottom: 10px;
+  margin-top: 12px; /* 一番下に */
 }
 
 .memoSection textarea {
   width: 100%;
-  height: 70px;
-  font-size: 16px;
+  height: 90px;
+  font-size: 17px;
   border: none;
   background: #1e1e2f;
   color: #fff;
@@ -105,41 +128,19 @@ button:active { opacity:0.7; }
   box-sizing: border-box;
 }
 
-/* ===== リセット+音 ===== */
-.resetSoundWrapper {
-  display:flex;
-  gap:6px;
-  margin-bottom: 10px;
-  flex-wrap: nowrap; /* 改行しない */
-  align-items:center;
-}
-
-/* ===== フッター ===== */
-.footer {
-  background: #2b2b44;
-  padding: 12px;
-  border-radius: 8px;
-  margin-top: 12px;
-  text-align: center;
-}
-
-.value { font-size:16px; margin:3px 0; }
-.rate { font-size:28px; font-weight:bold; margin-top:4px; }
-.ci { font-size:14px; margin-top:3px; color:#ffeeaa; }
-
 @media (max-width: 400px) {
-  .success, .miss, .reset, .soundToggle { height: 45px; font-size:15px; }
-  .inputBox { height: 32px; font-size:15px; }
-  .keypad button { height:32px; font-size:15px; }
-  .memoSection textarea { height:60px; font-size:15px; }
-  .rate { font-size:24px; }
-  .ci { font-size:13px; }
+  .success, .miss, .reset, .soundToggle, .csv { height: 50px; font-size:16px; }
+  .inputBox { height: 36px; font-size:16px; }
+  .keypad button { height:36px; font-size:16px; }
+  .memoSection textarea { height:70px; font-size:16px; }
+  .rate { font-size:26px; }
+  .ci { font-size:14px; }
 }
 </style>
 </head>
 
 <body>
-<h1>成功率算出君</h1>
+<h1>成功率算出君 + CSV出力</h1>
 
 <div class="mainButtons">
   <button class="success" onclick="addSuccess()">成功</button>
@@ -169,8 +170,12 @@ button:active { opacity:0.7; }
   </div>
 </div>
 
-<div class="memoSection">
-  <textarea id="memo" placeholder="メモ欄：自由に書き込み可能"></textarea>
+<!-- 成功率結果をテンキーの下に -->
+<div class="footer">
+  <div class="value">成功回数：<span id="success">0</span></div>
+  <div class="value">ミス回数：<span id="miss">0</span></div>
+  <div class="rate">成功率：<span id="rate">0.0</span>%</div>
+  <div class="ci">95% 信頼区間：<span id="ci">0.0 - 0.0</span>% ←この範囲に真値があるョ</div>
 </div>
 
 <div class="resetSoundWrapper">
@@ -178,11 +183,12 @@ button:active { opacity:0.7; }
   <button class="soundToggle" onclick="toggleSound()">🔊 音ON</button>
 </div>
 
-<div class="footer">
-  <div class="value">成功回数：<span id="success">0</span></div>
-  <div class="value">ミス回数：<span id="miss">0</span></div>
-  <div class="rate">成功率：<span id="rate">0.0</span>%</div>
-  <div class="ci">95% 信頼区間：<span id="ci">0.0 - 0.0</span>% ←この範囲に真値があるョ</div>
+<div>
+  <button class="csv" onclick="exportCSV()">CSV出力</button>
+</div>
+
+<div class="memoSection">
+  <textarea id="memo" placeholder="メモ欄：自由に書き込み可能"></textarea>
 </div>
 
 <script>
@@ -222,6 +228,23 @@ function resetAll(){ playMinusSound(); success=0; miss=0; document.getElementByI
 function addNum(n){ document.getElementById("inputValue").value+=n; }
 function clearNum(){ document.getElementById("inputValue").value=""; }
 function backspace(){ const v=document.getElementById("inputValue").value; document.getElementById("inputValue").value=v.slice(0,-1); }
+
+function exportCSV(){
+  const total=success+miss;
+  const rate = total===0?0:(success/total*100).toFixed(1);
+  const SE = Math.sqrt((success/total)*(1-(success/total))/total||0);
+  const lower = Math.max(0,(success/total - 1.96*SE)*100).toFixed(1);
+  const upper = Math.min(100,(success/total + 1.96*SE)*100).toFixed(1);
+  let csv="成功回数,ミス回数,成功率,95%信頼区間\n";
+  csv+=`${success},${miss},${rate},"${lower} - ${upper}"\n\n`;
+  csv+=`メモ,"${document.getElementById("memo").value.replace(/"/g,'""')}"\n`;
+  csv+=`出力日時,${new Date().toLocaleString()}\n`;
+  const blob = new Blob([csv], {type:'text/csv'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = '成功率算出結果.csv';
+  a.click();
+}
 </script>
 </body>
 </html>
