@@ -5,159 +5,31 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>成功率算出君</title>
 <style>
-*{
-  box-sizing:border-box;
-}
-
-body{
-  font-family: system-ui, -apple-system;
-  background:#1e1e2f;
-  color:#fff;
-  margin:0;
-  padding:8px;
-}
-
-h1{
-  text-align:center;
-  font-size:18px;
-  margin-bottom:4px;
-}
-
-.description{
-  text-align:center;
-  font-size:13px;
-  margin-bottom:8px;
-  line-height:1.4;
-  white-space:pre-line;
-}
-
-/* ===== メインボタン ===== */
-.mainButtons{
-  display:flex;
-  flex-direction:column;
-  gap:8px;
-}
-
-button{
-  font-weight:bold;
-  border-radius:10px;
-  border:none;
-  color:#000;
-}
-
-.success,.miss{
-  height:72px;
-  font-size:18px;
-}
-
-.success{background:#ff9933;}
-.miss{background:#66ccff;}
-
-.reset{background:#ff6666;height:48px;flex:1;}
-.soundToggle{background:#66dd88;height:48px;width:90px;font-size:14px;}
-
-/* ===== テンキー入力 ===== */
-.inputSection{
-  width:100%;
-  border:2px solid #fff;
-  border-radius:10px;
-  padding:8px;
-  margin:6px 0;
-}
-
-.inputBox{
-  width:100%;
-  height:38px;
-  font-size:18px;
-  text-align:right;
-  border-radius:6px;
-  border:2px solid #fff;
-  background:#1e1e2f;
-  color:#fff;
-  margin-bottom:6px;
-}
-
-.keypad{
-  display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:6px;
-}
-
-.keypad button{
-  height:40px;
-  font-size:16px;
-  background:#bbb;
-  border-radius:6px;
-}
-
-/* ===== 結果 ===== */
-.footer{
-  background:#2b2b44;
-  padding:8px;
-  border-radius:8px;
-  text-align:center;
-}
-
+*{box-sizing:border-box}
+body{font-family: system-ui, -apple-system;background:#1e1e2f;color:#fff;margin:0;padding:8px}
+h1{text-align:center;font-size:18px;margin-bottom:4px}
+.description{text-align:center;font-size:13px;margin-bottom:8px;line-height:1.4;white-space:pre-line}
+.mainButtons{display:flex;flex-direction:column;gap:8px}
+button{font-weight:bold;border-radius:10px;border:none;color:#000}
+.success,.miss{height:72px;font-size:18px}
+.success{background:#ff9933}
+.miss{background:#66ccff}
+.reset{background:#ff6666;height:48px;flex:1}
+.soundToggle{background:#66dd88;height:48px;width:90px;font-size:14px}
+.inputSection{width:100%;border:2px solid #fff;border-radius:10px;padding:8px;margin:6px 0}
+.inputBox{width:100%;height:38px;font-size:18px;text-align:right;border-radius:6px;border:2px solid #fff;background:#1e1e2f;color:#fff;margin-bottom:6px}
+.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.keypad button{height:40px;font-size:16px;background:#bbb;border-radius:6px}
+.footer{background:#2b2b44;padding:8px;border-radius:8px;text-align:center}
 .value{font-size:14px}
 .rate{font-size:24px;font-weight:bold}
 .ci{font-size:12px;color:#ffeeaa}
-
-/* ===== リセット+音 ===== */
-.resetSoundWrapper{
-  display:flex;
-  gap:6px;
-  margin:6px 0;
-}
-
-/* ===== 任意入力 ===== */
-.optionalSection{
-  width:100%;
-  background:#264653;
-  border-radius:10px;
-  padding:8px;
-  margin-top:6px;
-}
-
-.formSection input{
-  width:100%;
-  height:38px;
-  font-size:16px;
-  margin-bottom:6px;
-  border-radius:6px;
-  border:2px solid #fff;
-  background:#1e1e2f;
-  color:#fff;
-  padding:4px;
-}
-
-.memoSection textarea{
-  width:100%;
-  height:56px;
-  font-size:14px;
-  border:none;
-  background:#1e1e2f;
-  color:#fff;
-  resize:none;
-}
-
-/* ===== CSV ===== */
-.csvSection{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  margin-top:6px;
-}
-
-.csvBtn{
-  height:46px;
-  font-size:14px;
-  border-radius:10px;
-  border:none;
-  background:#b399ff;
-  color:#000;
-  padding:0 8px;
-  cursor:pointer;
-}
+.resetSoundWrapper{display:flex;gap:6px;margin:6px 0}
+.optionalSection{width:100%;background:#264653;border-radius:10px;padding:8px;margin-top:6px}
+.formSection input{width:100%;height:38px;font-size:16px;margin-bottom:6px;border-radius:6px;border:2px solid #fff;background:#1e1e2f;color:#fff;padding:4px}
+.memoSection textarea{width:100%;height:56px;font-size:14px;border:none;background:#1e1e2f;color:#fff;resize:none}
+.csvSection{display:flex;align-items:center;gap:6px;margin-top:6px}
+.csvBtn{height:46px;font-size:14px;border-radius:10px;border:none;background:#b399ff;color:#000;padding:0 8px;cursor:pointer}
 </style>
 </head>
 <body>
@@ -165,7 +37,7 @@ button{
 <h1>成功率算出君</h1>
 <div class="description">
 成功/ミスをクリックすると成功率を自動計算します。
-また、テンキー入力後に成功/ミスをクリックすると任意回数の計算も可能です。
+テンキー入力後に成功/ミスをクリックすると任意回数の計算も可能です。
 </div>
 
 <div class="mainButtons">
@@ -176,18 +48,10 @@ button{
 <div class="inputSection">
   <input id="inputValue" class="inputBox" readonly placeholder="数値入力">
   <div class="keypad">
-    <button onclick="addNum(1)">1</button>
-    <button onclick="addNum(2)">2</button>
-    <button onclick="addNum(3)">3</button>
-    <button onclick="addNum(4)">4</button>
-    <button onclick="addNum(5)">5</button>
-    <button onclick="addNum(6)">6</button>
-    <button onclick="addNum(7)">7</button>
-    <button onclick="addNum(8)">8</button>
-    <button onclick="addNum(9)">9</button>
-    <button onclick="clearNum()">C</button>
-    <button onclick="addNum(0)">0</button>
-    <button onclick="backspace()">←</button>
+    <button onclick="addNum(1)">1</button><button onclick="addNum(2)">2</button><button onclick="addNum(3)">3</button>
+    <button onclick="addNum(4)">4</button><button onclick="addNum(5)">5</button><button onclick="addNum(6)">6</button>
+    <button onclick="addNum(7)">7</button><button onclick="addNum(8)">8</button><button onclick="addNum(9)">9</button>
+    <button onclick="clearNum()">C</button><button onclick="addNum(0)">0</button><button onclick="backspace()">←</button>
   </div>
 </div>
 
@@ -233,20 +97,10 @@ button{
 <script>
 const audioCtx=new (window.AudioContext||window.webkitAudioContext)();
 let soundOn=true;
-function playTone(f,d=0.1,v=0.25){
-  if(!soundOn)return;
-  const o=audioCtx.createOscillator();
-  const g=audioCtx.createGain();
-  o.frequency.value=f; g.gain.value=v;
-  o.connect(g); g.connect(audioCtx.destination);
-  o.start(); o.stop(audioCtx.currentTime+d);
-}
+function playTone(f,d=0.1,v=0.25){if(!soundOn)return;const o=audioCtx.createOscillator();const g=audioCtx.createGain();o.frequency.value=f; g.gain.value=v;o.connect(g); g.connect(audioCtx.destination);o.start(); o.stop(audioCtx.currentTime+d);}
 function ok(){playTone(880);}
 function ng(){playTone(440);}
-function toggleSound(){
-  soundOn=!soundOn;
-  document.querySelector(".soundToggle").textContent=soundOn?"🔊 音ON":"🔇 音OFF";
-}
+function toggleSound(){soundOn=!soundOn;document.querySelector(".soundToggle").textContent=soundOn?"🔊 音ON":"🔇 音OFF";}
 
 let success=0, miss=0;
 const inputValue=document.getElementById("inputValue");
@@ -256,29 +110,35 @@ const rate=document.getElementById("rate");
 const ci=document.getElementById("ci");
 
 function getVal(){return Number(inputValue.value)||1;}
-function update(){
-  const t=success+miss;
-  rate.textContent=t?(success/t*100).toFixed(1):"0.0";
-  if(!t){ci.textContent="0.0 - 0.0";return;}
-  const p=success/t,se=Math.sqrt(p*(1-p)/t);
-  ci.textContent=`${Math.max(0,(p-1.96*se)*100).toFixed(1)} - ${Math.min(100,(p+1.96*se)*100).toFixed(1)}`;
-}
-function addSuccess(){ok(); success+=getVal(); successEl.textContent=success; update(); clearNum();}
-function addMiss(){ng(); miss+=getVal(); missEl.textContent=miss; update(); clearNum();}
-function resetAll(){
-  ng();
-  success=miss=0;
-  successEl.textContent=0;
-  missEl.textContent=0;
-  update();
-  clearNum();
-  ["playerName","userLevel","targetLevel","skillName","memo"].forEach(id=>document.getElementById(id).value="");
-}
-function addNum(n){inputValue.value+=n;}
-function clearNum(){inputValue.value="";}
-function backspace(){inputValue.value=inputValue.value.slice(0,-1);}
 
-/* CSV（成功率算出君Ⅱ形式互換） */
+// Wilsonスコア法によるCI計算
+function wilsonCI(s, n, z=1.96){
+  if(n===0) return [0,0];
+  const p = s/n;
+  const denom = 1 + (z*z)/n;
+  const center = p + (z*z)/(2*n);
+  const margin = z * Math.sqrt((p*(1-p)/n) + (z*z)/(4*n*n));
+  const lower = (center - margin)/denom;
+  const upper = (center + margin)/denom;
+  return [Math.max(0, lower*100), Math.min(100, upper*100)];
+}
+
+function update(){
+  const t = success + miss;
+  const p = t?success/t:0;
+  rate.textContent = (p*100).toFixed(1);
+  const [l,u] = wilsonCI(success, t);
+  ci.textContent = `${l.toFixed(1)} - ${u.toFixed(1)}`;
+}
+
+function addSuccess(){ok(); success += getVal(); successEl.textContent=success; update(); clearNum();}
+function addMiss(){ng(); miss += getVal(); missEl.textContent=miss; update(); clearNum();}
+function resetAll(){ng(); success=miss=0; successEl.textContent=0; missEl.textContent=0; update(); clearNum(); ["playerName","userLevel","targetLevel","skillName","memo"].forEach(id=>document.getElementById(id).value="");}
+function addNum(n){inputValue.value += n;}
+function clearNum(){inputValue.value = "";}
+function backspace(){inputValue.value = inputValue.value.slice(0,-1);}
+
+// CSV出力
 function downloadCSV(){
   const name=document.getElementById("playerName").value;
   const userLv=parseInt(document.getElementById("userLevel").value)||0;
@@ -286,23 +146,19 @@ function downloadCSV(){
   const skill=document.getElementById("skillName").value;
   const memo=document.getElementById("memo").value;
   const t=success+miss;
-  const rate=t?((success/t*100).toFixed(2))+"%":"0%";
+  const rateStr=t?((success/t*100).toFixed(2))+"%":"0%";
   const now=new Date().toLocaleString();
-
   const rows=[
     ["プレイヤー名","術者Lv","対象Lv","レベル差","成功","ミス","成功率","技名","メモ","区分","出力日時"],
-    [name,userLv,targetLv,userLv-targetLv,success,miss,rate,skill,memo,"単体",now]
+    [name,userLv,targetLv,userLv-targetLv,success,miss,rateStr,skill,memo,"単体",now]
   ];
-
   const csv=rows.map(r=>r.join(",")).join("\n");
   const blob=new Blob([csv],{type:"text/csv"});
   const a=document.createElement("a");
   a.href=URL.createObjectURL(blob);
-  a.download="成功率算出結果_単体.csv";
+  a.download="成功率算出結果_単体_Wilson.csv";
   a.click();
 }
 </script>
-
 </body>
 </html>
-
