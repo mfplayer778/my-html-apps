@@ -156,9 +156,10 @@ function downloadCSV(){
   const blob=new Blob([csv],{type:"text/csv"});
   const a=document.createElement("a");
   a.href=URL.createObjectURL(blob);
-  a.download="成功率算出結果_単体_Wilson.csv";
+  a.download="成功率算出結果_単体.csv";
   a.click();
 }
 </script>
 </body>
 </html>
+
