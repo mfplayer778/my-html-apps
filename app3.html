@@ -5,109 +5,33 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>成功率算出君Ⅱ</title>
 <style>
-body{
-  font-family: system-ui, -apple-system;
-  background:#1e1e2f;
-  color:#fff;
-  margin:0;
-  padding:6px;
-  box-sizing:border-box;
-}
-h1{
-  text-align:center;
-  font-size:18px;
-  margin:4px 0;
-}
-.description{
-  text-align:center;
-  font-size:13px;
-  margin-bottom:6px;
-  line-height:1.4;
-  white-space:pre-line;
-}
-.grid{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:6px;
-}
-.box{
-  border:2px solid #fff;
-  border-radius:8px;
-  padding:4px;
-  text-align:center;
-}
-.box h2{margin:0 0 4px;font-size:14px;}
-.buttons{display:flex;flex-direction:column;gap:4px;}
-button{border:none;border-radius:8px;font-weight:bold;cursor:pointer;}
-.success{background:#ff9933;height:48px;font-size:14px;}
-.miss{background:#66ccff;height:48px;font-size:14px;}
-.box .footer{margin-top:4px;}
-.box .value{font-size:12px;}
-.box .rate{font-size:18px;font-weight:bold;}
-.box .ci{font-size:11px;color:#ffeeaa;}
-.totalBox{
-  margin-top:4px;
-  border:2px solid #fff;
-  border-radius:8px;
-  padding:6px;
-  text-align:center;
-  background:#2b2b44;
-}
+body{font-family: system-ui, -apple-system;background:#1e1e2f;color:#fff;margin:0;padding:6px;box-sizing:border-box}
+h1{text-align:center;font-size:18px;margin:4px 0}
+.description{text-align:center;font-size:13px;margin-bottom:6px;line-height:1.4;white-space:pre-line}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.box{border:2px solid #fff;border-radius:8px;padding:4px;text-align:center}
+.box h2{margin:0 0 4px;font-size:14px}
+.buttons{display:flex;flex-direction:column;gap:4px}
+button{border:none;border-radius:8px;font-weight:bold;cursor:pointer}
+.success{background:#ff9933;height:48px;font-size:14px}
+.miss{background:#66ccff;height:48px;font-size:14px}
+.box .footer{margin-top:4px}
+.box .value{font-size:12px}
+.box .rate{font-size:18px;font-weight:bold}
+.box .ci{font-size:11px;color:#ffeeaa}
+.totalBox{margin-top:4px;border:2px solid #fff;border-radius:8px;padding:6px;text-align:center;background:#2b2b44}
 .totalRate{font-size:22px;font-weight:bold}
 .totalCI{font-size:12px;color:#ffeeaa}
-.resetSound{display:flex;gap:6px;margin-top:4px;}
-.reset{background:#ff6666;flex:1;height:38px;font-size:14px;}
-.soundToggle{background:#66dd88;width:90px;height:38px;font-size:13px;}
-.optionalSection{
-  background:#264653;
-  border-radius:10px;
-  padding:8px;
-  margin-top:6px;
-}
-.formSection input{
-  width:100%;
-  height:36px;
-  font-size:15px;
-  margin-bottom:6px;
-  border-radius:6px;
-  border:2px solid #fff;
-  background:#1e1e2f;
-  color:#fff;
-  padding:4px;
-  box-sizing:border-box;
-}
-.targetRow{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:6px;
-}
-.csvSection{
-  display:flex;
-  align-items:center;
-  gap:6px;
-  margin-top:6px;
-}
-.csvBtn{
-  height:40px;
-  font-size:14px;
-  border-radius:8px;
-  border:none;
-  background:#b399ff;
-  color:#000;
-  padding:0 8px;
-}
-.memoSection{
-  margin-top:6px;
-}
-.memoSection textarea{
-  width:100%;
-  height:56px;
-  font-size:14px;
-  border:none;
-  background:#1e1e2f;
-  color:#fff;
-  resize:none;
-}
+.resetSound{display:flex;gap:6px;margin-top:4px}
+.reset{background:#ff6666;flex:1;height:38px;font-size:14px}
+.soundToggle{background:#66dd88;width:90px;height:38px;font-size:13px}
+.optionalSection{background:#264653;border-radius:10px;padding:8px;margin-top:6px}
+.formSection input{width:100%;height:36px;font-size:15px;margin-bottom:6px;border-radius:6px;border:2px solid #fff;background:#1e1e2f;color:#fff;padding:4px;box-sizing:border-box}
+.targetRow{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.csvSection{display:flex;align-items:center;gap:6px;margin-top:6px}
+.csvBtn{height:40px;font-size:14px;border-radius:8px;border:none;background:#b399ff;color:#000;padding:0 8px;cursor:pointer}
+.memoSection{margin-top:6px}
+.memoSection textarea{width:100%;height:56px;font-size:14px;border:none;background:#1e1e2f;color:#fff;resize:none}
 </style>
 </head>
 <body>
@@ -155,7 +79,7 @@ ABCD4体同時に成功率の計算が可能です。
     <button class="csvBtn" onclick="downloadCSV()">① CSVダウンロード</button>
     <span style="font-size:16px;">→</span>
     <button class="csvBtn" style="background:#aa88ff;"
-      onclick="window.open('https://drive.google.com/drive/folders/12EhBWUr1TCCaWRHd-38_qyxEGLuhYvN8','_blank')">
+      onclick="window.open('https://drive.google.com/drive/folders/1tYpywXZoB33LoSDLk98yfL351-uwfmdf','_blank')">
       ② データ提供はコチラ（Googleドライブが開きます）
     </button>
   </div>
@@ -168,20 +92,10 @@ ABCD4体同時に成功率の計算が可能です。
 <script>
 const audioCtx=new (window.AudioContext||window.webkitAudioContext)();
 let soundOn=true;
-function playTone(f,d=0.1,v=0.25){
-  if(!soundOn)return;
-  const o=audioCtx.createOscillator();
-  const g=audioCtx.createGain();
-  o.frequency.value=f; g.gain.value=v;
-  o.connect(g); g.connect(audioCtx.destination);
-  o.start(); o.stop(audioCtx.currentTime+d);
-}
+function playTone(f,d=0.1,v=0.25){if(!soundOn)return;const o=audioCtx.createOscillator();const g=audioCtx.createGain();o.frequency.value=f; g.gain.value=v;o.connect(g); g.connect(audioCtx.destination);o.start(); o.stop(audioCtx.currentTime+d);}
 function playOK(){playTone(880);}
 function playNG(){playTone(440);}
-function toggleSound(){
-  soundOn=!soundOn;
-  document.querySelector(".soundToggle").textContent=soundOn?"🔊 音ON":"🔇 音OFF";
-}
+function toggleSound(){soundOn=!soundOn;document.querySelector(".soundToggle").textContent=soundOn?"🔊 音ON":"🔇 音OFF";}
 
 const labels=["A","B","C","D"];
 const data={};
@@ -206,53 +120,44 @@ labels.forEach(l=>{
   data[l].el=box;
 });
 
-// Wilsonスコア法でCI計算
-function wilsonCI(s,t,z=1.96){
-  if(t===0) return [0,0];
-  const phat = (s + 0.5*z*z) / (t + z*z);
-  const margin = z / (t + z*z) * Math.sqrt(s*t/t + 0.25*z*z);
-  const lower = Math.max(0, phat - margin);
-  const upper = Math.min(1, phat + margin);
-  return [lower, upper];
+// Wilsonスコア法関数
+function wilsonCI(s, n, z=1.96){
+  if(n===0) return [0,0];
+  const p = s/n;
+  const denom = 1 + (z*z)/n;
+  const center = p + (z*z)/(2*n);
+  const margin = z * Math.sqrt((p*(1-p)/n) + (z*z)/(4*n*n));
+  const lower = (center - margin)/denom;
+  const upper = (center + margin)/denom;
+  return [Math.max(0, lower*100), Math.min(100, upper*100)];
 }
 
 function add(l,succ){
-  succ ? (data[l].s++,playOK()) : (data[l].m++,playNG());
-  update(l); updateTotal();
+  succ ? data[l].s++ : data[l].m++;
+  succ ? playOK() : playNG();
+  update(l);
+  updateTotal();
 }
 
 function update(l){
-  const d=data[l],t=d.s+d.m;
-  const r = t ? (d.s/t*100).toFixed(1) : "0.0";
-  let ci = "0.0 - 0.0";
-  if(t){
-    const [low,high] = wilsonCI(d.s,t);
-    ci = `${(low*100).toFixed(1)} - ${(high*100).toFixed(1)}`;
-  }
+  const d=data[l], t=d.s+d.m;
+  const r=t ? (d.s/t*100).toFixed(1) : "0.0";
+  const [lci,uci] = wilsonCI(d.s,t);
   const f=d.el.querySelector(".footer");
   f.children[0].textContent=`成功：${d.s} ／ ミス：${d.m}`;
   f.children[1].textContent=`${r}%`;
-  f.children[2].textContent=`${ci}%`;
+  f.children[2].textContent=`${lci.toFixed(1)} - ${uci.toFixed(1)}%`;
 }
 
 function updateTotal(){
   let s=0,m=0;
   labels.forEach(l=>{s+=data[l].s; m+=data[l].m;});
-  const t = s+m;
-  document.getElementById("ts").textContent = s;
-  document.getElementById("tm").textContent = m;
-
-  const rateElem = document.getElementById("totalRate");
-  const ciElem = document.getElementById("totalCI");
-
-  if(t){
-    const [low,high] = wilsonCI(s,t);
-    rateElem.textContent = (s/t*100).toFixed(1) + "%";
-    ciElem.textContent = `${(low*100).toFixed(1)} - ${(high*100).toFixed(1)}%`;
-  } else {
-    rateElem.textContent = "0.0%";
-    ciElem.textContent = "0.0 - 0.0%";
-  }
+  const t=s+m;
+  document.getElementById("ts").textContent=s;
+  document.getElementById("tm").textContent=m;
+  document.getElementById("totalRate").textContent=t?(s/t*100).toFixed(1)+"%":"0.0%";
+  const [lci,uci] = wilsonCI(s,t);
+  document.getElementById("totalCI").textContent=`${lci.toFixed(1)} - ${uci.toFixed(1)}%`;
 }
 
 function resetAll(){
@@ -271,9 +176,8 @@ function downloadCSV(){
   const now=new Date().toLocaleString();
 
   const rows=[["プレイヤー名","術者Lv","対象Lv","レベル差","成功","ミス","成功率","技名","メモ","区分","出力日時"]];
-
   labels.forEach(l=>{
-    const d=data[l],t=d.s+d.m;
+    const d=data[l], t=d.s+d.m;
     const target=parseInt(document.getElementById("target"+l).value)||0;
     const rate=t?((d.s/t*100).toFixed(2))+"%":"0%";
     rows.push([name,userLv,target,userLv-target,d.s,d.m,rate,skill,memo,l,now]);
@@ -283,7 +187,7 @@ function downloadCSV(){
   const blob=new Blob([csv],{type:"text/csv"});
   const a=document.createElement("a");
   a.href=URL.createObjectURL(blob);
-  a.download="成功率算出結果_ABCD別.csv";
+  a.download="成功率算出結果_ABCD別_Wilson.csv";
   a.click();
 }
 </script>
